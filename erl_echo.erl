@@ -51,7 +51,14 @@ start_server() ->
 connect(Listen) ->
   {ok, Socket} = gen_tcp:accept(Listen),
   inet:setopts(Socket, ?TCP_OPTS),
-  spawn_link(echo_server, connect, [Listen]),
+  spawn_link(erl_echo, connect, [Listen]),
+
+	%	Won't suppress go-ahead
+	gen_tcp:send(Socket, <<255, 252, 3>>),
+
+	% Won't echo
+	gen_tcp:send(Socket, <<255, 252, 1>>),
+
   gen_tcp:send(Socket, ?WELCOME_MESSAGE),
   gen_tcp:send(Socket, ?LINE_PREFIX),
   recv_loop(Socket),

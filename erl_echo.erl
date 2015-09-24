@@ -53,11 +53,11 @@ connect(Listen) ->
   inet:setopts(Socket, ?TCP_OPTS),
   spawn_link(erl_echo, connect, [Listen]),
 
-	%	Won't suppress go-ahead
-	gen_tcp:send(Socket, <<255, 252, 3>>),
+  % Won't suppress go-ahead
+  gen_tcp:send(Socket, <<255, 252, 3>>),
 
-	% Won't echo
-	gen_tcp:send(Socket, <<255, 252, 1>>),
+  % Won't echo
+  gen_tcp:send(Socket, <<255, 252, 1>>),
 
   gen_tcp:send(Socket, ?WELCOME_MESSAGE),
   gen_tcp:send(Socket, ?LINE_PREFIX),
